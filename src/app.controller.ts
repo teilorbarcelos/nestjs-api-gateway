@@ -1,8 +1,10 @@
 import {
   Body,
   Controller,
+  Get,
   Logger,
   Post,
+  Query,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -12,6 +14,7 @@ import {
   Transport,
 } from '@nestjs/microservices';
 import { RMQ_SERVER_URL } from 'env';
+import { Observable } from 'rxjs';
 import { CreateCategoryDto } from './dto/create-category.dto';
 
 @Controller()
@@ -30,7 +33,12 @@ export class AppController {
 
   @Post()
   @UsePipes(ValidationPipe)
-  async createCategory(@Body() createCategoryDto: CreateCategoryDto) {
+  createCategory(@Body() createCategoryDto: CreateCategoryDto) {
     return this.clientAdminBackend.emit('create-category', createCategoryDto);
+  }
+
+  @Get('categories')
+  getCategory(@Query('categoryId') categoryId: string): Observable<any> {
+    return this.clientAdminBackend.send('get-category', categoryId ?? '');
   }
 }
