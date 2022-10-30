@@ -5,18 +5,14 @@ import {
   NestInterceptor,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { timeout } from 'rxjs/operators';
 
 @Injectable()
-export class LoggingInterceptor implements NestInterceptor {
+export class TimeoutInterceptor implements NestInterceptor {
   intercept(
     context: ExecutionContext,
     next: CallHandler<any>,
   ): Observable<any> | Promise<Observable<any>> {
-    console.log('Before intercept');
-    const moment = Date.now();
-    return next
-      .handle()
-      .pipe(tap(() => console.log(`After intercept ${Date.now() - moment}ms`)));
+    return next.handle().pipe(timeout(10000));
   }
 }
