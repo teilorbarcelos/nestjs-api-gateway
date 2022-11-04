@@ -3,7 +3,9 @@ import {
   Controller,
   Get,
   Logger,
+  Param,
   Post,
+  Put,
   Query,
   UsePipes,
   ValidationPipe,
@@ -16,6 +18,7 @@ import {
 import { RMQ_SERVER_URL } from 'env';
 import { Observable } from 'rxjs';
 import { CreateCategoryDto } from './dto/create-category.dto';
+import { UpdateCategoryDto } from './dto/update-category.dto';
 
 @Controller()
 export class AppController {
@@ -40,5 +43,17 @@ export class AppController {
   @Get('categories')
   getCategory(@Query('categoryId') categoryId: string): Observable<any> {
     return this.clientAdminBackend.send('get-category', categoryId ?? '');
+  }
+
+  @Put('categories/:_id')
+  @UsePipes(ValidationPipe)
+  updateCategory(
+    @Body() updateCategoryDto: UpdateCategoryDto,
+    @Param('_id') _id: string,
+  ) {
+    this.clientAdminBackend.emit('update-category', {
+      id: _id,
+      category: updateCategoryDto,
+    });
   }
 }
