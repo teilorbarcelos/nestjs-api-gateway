@@ -12,6 +12,8 @@ import {
   BadRequestException,
   Delete,
   Req,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { ClientProxySmartRanking } from '../proxyrmq/client-proxy';
@@ -20,6 +22,7 @@ import { CreatePlayerDto } from './dto/create-player.dto';
 import { Category } from 'src/categories/interfaces/category.interface';
 import { UpdatePlayerDto } from './dto/update-player.dto';
 import { ValidationParamsPipe } from 'src/common/pipes/validation-params.pipe';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('api/v1/jogadores')
 export class PlayersController {
@@ -44,6 +47,12 @@ export class PlayersController {
     } else {
       throw new BadRequestException(`Categoria não cadastrada!`);
     }
+  }
+
+  @Post('/:_id/upload')
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadFile(@UploadedFile() file: File, @Param('id') id: string) {
+    this.logger.log(file);
   }
 
   @Get()

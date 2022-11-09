@@ -5,6 +5,7 @@ import {
 } from '@nestjs/microservices';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { RABBITMQ_PASSWORD, RABBITMQ_USER, RMQ_SERVER_URL } from 'env';
 
 @Injectable()
 export class ClientProxySmartRanking {
@@ -16,10 +17,10 @@ export class ClientProxySmartRanking {
       options: {
         urls: [
           `amqp://${this.configService.get<string>(
-            'RABBITMQ_USER',
+            RABBITMQ_USER,
           )}:${this.configService.get<string>(
-            'RABBITMQ_PASSWORD',
-          )}@${this.configService.get<string>('RABBITMQ_URL')}`,
+            RABBITMQ_PASSWORD,
+          )}@${this.configService.get<string>(RMQ_SERVER_URL)}`,
         ],
         queue: 'admin-backend',
       },
@@ -32,10 +33,10 @@ export class ClientProxySmartRanking {
       options: {
         urls: [
           `amqp://${this.configService.get<string>(
-            'RABBITMQ_USER',
+            RABBITMQ_USER,
           )}:${this.configService.get<string>(
-            'RABBITMQ_PASSWORD',
-          )}@${this.configService.get<string>('RABBITMQ_URL')}`,
+            RABBITMQ_PASSWORD,
+          )}@${this.configService.get<string>(RMQ_SERVER_URL)}`,
         ],
         queue: 'desafios',
       },
@@ -48,10 +49,10 @@ export class ClientProxySmartRanking {
       options: {
         urls: [
           `amqp://${this.configService.get<string>(
-            'RABBITMQ_USER',
+            RABBITMQ_USER,
           )}:${this.configService.get<string>(
-            'RABBITMQ_PASSWORD',
-          )}@${this.configService.get<string>('RABBITMQ_URL')}`,
+            RABBITMQ_PASSWORD,
+          )}@${this.configService.get<string>(RMQ_SERVER_URL)}`,
         ],
         queue: 'rankings',
       },
