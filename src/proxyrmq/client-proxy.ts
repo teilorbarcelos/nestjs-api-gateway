@@ -27,7 +27,7 @@ export class ClientProxySmartRanking {
     });
   }
 
-  getClientProxyDesafiosInstance(): ClientProxy {
+  getClientProxyChallengesInstance(): ClientProxy {
     return ClientProxyFactory.create({
       transport: Transport.RMQ,
       options: {

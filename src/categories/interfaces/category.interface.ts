@@ -2,7 +2,7 @@ export interface Category {
   readonly _id: string;
   readonly category: string;
   description: string;
-  events: Array<CategoryEvent>;
+  events: CategoryEvent[];
 }
 
 interface CategoryEvent {
