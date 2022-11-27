@@ -88,9 +88,9 @@ export class PlayersController {
     @Body() updatePlayerDto: UpdatePlayerDto,
     @Param('_id', ValidationParamsPipe) _id: string,
   ) {
-    const category: Category = await this.clientAdminBackend
-      .send('get-categories', updatePlayerDto.category)
-      .toPromise();
+    const category: Category = await lastValueFrom(
+      this.clientAdminBackend.send('get-categories', updatePlayerDto.category),
+    );
 
     if (category) {
       await this.clientAdminBackend.emit('update-player', {
